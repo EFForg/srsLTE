@@ -29,7 +29,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include <srslte/asn1/liblte_rrc.h>
 #include "srsue/hdr/upper/rrc.h"
 #include "srslte/asn1/rrc_asn1.h"
 #include "srslte/common/bcd_helpers.h"
