@@ -395,6 +395,7 @@ int main(int argc, char **argv) {
   /* begin cell search loop */
   freq = -1;
   while (! go_exit) {
+    srslte_rf_stop_rx_stream(&rf);
     bool acks[SRSLTE_MAX_CODEWORDS] = {false};
     /* set rf_freq */
     freq++;
@@ -421,6 +422,8 @@ int main(int argc, char **argv) {
     srslte_rf_start_rx_stream(&rf, false);
 
     n = srslte_ue_cellsearch_scan(&cs, found_cells, NULL);
+    srslte_rf_stop_rx_stream(&rf);
+
     int ret = SRSLTE_UE_MIB_NOTFOUND;
     srslte_cell_t cell;
     if (n < 0) {
@@ -497,12 +500,10 @@ int main(int argc, char **argv) {
           continue;
         }
 
-	/*
       printf("Stopping RF and flushing buffer...\n");
       srslte_rf_stop_rx_stream(&rf);
       srslte_rf_flush_buffer(&rf);
       printf("DONE Stopping RF and flushing buffer...\n");
-      */
 
 	    fprintf(stderr, "******* init multi\n");
       if (srslte_ue_sync_init_multi(&ue_sync, cell.nof_prb, cell.id==1000, srslte_rf_recv_wrapper, 1, (void*) &rf)) {
@@ -763,6 +764,3 @@ int main(int argc, char **argv) {
   printf("\nBye\n");
   exit(0);
 }
-
-
-
